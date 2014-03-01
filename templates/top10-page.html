@@ -1,0 +1,29 @@
+[% PROCESS 'header.html' title='CPAN new dist per month contest' %]
+<p>
+Release a new CPAN dist each month. How many months can you keep that up for?
+Like the <a href="http://onceaweek.cjmweb.net">once a week</a> contest, the weeks start on Sunday and end on Saturday.
+The <a href="https://github.com/neilbowers/neocpanisms">code</a> is on github,
+where you can also log any <a href="https://github.com/neilbowers/neocpanisms/issues">bugs or suggestions</a>.
+</p>
+<table width="100%" align=center>
+    <tr><td colspan=2 class=header>Still-active chains</td><td colspan=2 class=header>All-time longest chains</td></tr>
+    <tr valign=top>
+        [% FOREACH list IN lists %]
+            <td align=center>
+            <table cellspacing=0 cellpadding=0 class=chain>
+                <thead><tr><th colspan=3>[% list.title %]</th></tr></thead>
+                <tbody>
+                    [% FOREACH entry IN list.entries %][% NEXT IF limit.defined && loop.count > limit %]
+                        <tr class=user>
+                            <td align=left>[% loop.count %].</td>
+                            <td align=left><a href="https://metacpan.org/author/[% entry.user %]">[% entry.user %]</a></td>
+                            <td align=right>[% entry.count %]</td>
+                        </tr>
+                    [% END %]
+                </tbody>
+            </table>
+            </td>
+        [% END %]
+    </tr>
+</table>
+[% PROCESS 'footer.html' %]
