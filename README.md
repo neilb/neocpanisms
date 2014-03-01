@@ -6,7 +6,7 @@ See the output at http://neilb.org/neocpanisms/
 
 # TODO
 
-This was a lashup following an offhand comment from BOOK.
+This was a lashup following an offhand comment from BOOK and then a suggestion from KENTNL.
 Things to do:
 
 * See whether POSIX::strftime() would be quicker than DateTime. I reckon so.
