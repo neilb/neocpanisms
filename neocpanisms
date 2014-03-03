@@ -83,8 +83,8 @@ sub process_cpan_releases
         next if ! defined $release->distinfo->dist;
         my $user               = $release->distinfo->cpanid;
 
-        next if exists($seen{$release->distinfo->dist});
-        $seen{$release->distinfo->dist} = 1;
+        next if exists($seen{$user}{$release->distinfo->dist});
+        $seen{$user}{$release->distinfo->dist} = 1;
 
         my ($ym, $week, $date) = time_to_bins($release->timestamp);
 
