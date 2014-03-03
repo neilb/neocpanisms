@@ -1,7 +1,7 @@
 #!/usr/local/bin/perl
 use strict;
 use warnings;
-use CPAN::ReleaseHistory;
+use CPAN::ReleaseHistory 0.03;
 use DateTime;
 use Template;
 use 5.010;
