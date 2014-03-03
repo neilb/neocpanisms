@@ -80,6 +80,7 @@ sub process_cpan_releases
     my %seen;
 
     while (my $release = $iterator->next_release) {
+        next if ! defined $release->distinfo->dist;
         my $user               = $release->distinfo->cpanid;
 
         next if exists($seen{$release->distinfo->dist});
