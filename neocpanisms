@@ -101,6 +101,7 @@ sub find_chains
     # active chains
     foreach my $category (qw(month week)) {
         my %chain;
+        my %score;
         my @entries;
 
         USER:
@@ -117,11 +118,12 @@ sub find_chains
                     next USER;
                 }
                 $chain{$user}++;
+                $score{$user} += $data->{$bin};
             }
         }
         @entries = map { { user => $_, count => $chain{$_} } }
                    grep { $chain{$_} >= 2 }
-                   sort { $chain{$b} <=> $chain{$a} }
+                   sort { $chain{$b} <=> $chain{$a} || $score{$b} <=> $score{$a} }
                    keys %chain;
         push(@lists, { title => "neocpanism a $category", entries => \@entries });
     }
@@ -129,25 +131,32 @@ sub find_chains
     # all-time chains
     foreach my $category (qw(month week)) {
         my %chain;
+        my %score;
         my @entries;
 
         USER:
         foreach my $user (keys %{ $counts{$category} }) {
             $data = $counts{$category}->{$user};
             my $length = 0;
+            my $score  = 0;
             BIN:
             foreach my $bin (@{ $bins{$category} }) {
                 if (!exists($data->{$bin})) {
-                    $chain{$user} = $length if (!exists($chain{$user}) || $length > $chain{$user});
+                    if (!exists($chain{$user}) || $length > $chain{$user}) {
+                        $chain{$user} = $length;
+                        $score{$user} = $score;
+                    }
                     $length = 0;
+                    $score  = 0;
                     next BIN;
                 }
                 $length++;
+                $score += $data->{$bin};
             }
         }
         @entries = map { { user => $_, count => $chain{$_} } }
                    grep { $chain{$_} >= 2 }
-                   sort { $chain{$b} <=> $chain{$a} }
+                   sort { $chain{$b} <=> $chain{$a} || $score{$b} <=> $score{$a} }
                    keys %chain;
         push(@lists, { title => "neocpanism a $category", entries => \@entries });
     }
