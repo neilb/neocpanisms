@@ -81,6 +81,7 @@ sub find_chains
     foreach my $category (qw(month week)) {
         my %chain;
         my %score;
+        my %safe;
         my @entries;
 
         USER:
@@ -96,11 +97,12 @@ sub find_chains
 
                     next USER;
                 }
+                $safe{$user} = 1 if $bin eq $bins{$category}->[0];
                 $chain{$user}++;
                 $score{$user} += $data->{$bin};
             }
         }
-        @entries = map { { user => $_, count => $chain{$_} } }
+        @entries = map { { user => $_, count => $chain{$_}, safe => $safe{$_} // 0 } }
                    grep { $chain{$_} >= 2 }
                    sort { $chain{$b} <=> $chain{$a} || $score{$b} <=> $score{$a} }
                    keys %chain;

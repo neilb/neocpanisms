@@ -3,6 +3,8 @@
 Release a new CPAN dist each month. How many months can you keep that up for?
 For the super-keen, there is also a "once a week" contest;
 the weeks start on Sunday and end on Saturday.
+In the still-active chains, where an author has a green background that means (s)he has
+already done a release in the current month or week.
 Where two authors have the same chain length, the one with most new dists in that period wins.
 The <a href="https://github.com/neilbowers/neocpanisms">code</a> is on github,
 where you can also log any <a href="https://github.com/neilbowers/neocpanisms/issues">bugs or suggestions</a>.
@@ -16,7 +18,7 @@ where you can also log any <a href="https://github.com/neilbowers/neocpanisms/is
                 <thead><tr><th colspan=3>[% list.title %]</th></tr></thead>
                 <tbody>
                     [% FOREACH entry IN list.entries %][% NEXT IF limit.defined && loop.count > limit %]
-                        <tr class=user>
+                        <tr class="user[% IF entry.safe %] safe[% END %]">
                             <td align=left>[% loop.count %].</td>
                             <td align=left><a href="https://metacpan.org/author/[% entry.user %]">[% entry.user %]</a></td>
                             <td align=right>[% entry.count %]</td>
