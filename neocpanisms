@@ -29,7 +29,7 @@ sub build_bins
     while ($time > $FIRST_RELEASE_TIME) {
         my ($ym, $week, $date) = time_to_bins($time);
 
-        push(@{ $bins{week} },  $week)  if !defined($previous_week) || $previous_week ne $week;
+        # push(@{ $bins{week} },  $week)  if !defined($previous_week) || $previous_week ne $week;
         push(@{ $bins{month} }, $ym)    if !defined($previous_ym)   || $previous_ym ne $ym;
 
         $previous_ym   = $ym;
@@ -59,7 +59,7 @@ sub process_cpan_releases
     my %seen;
 
     while (my $release = $iterator->next_release) {
-        my $user               = $release->distinfo->cpanid;
+        my $user = $release->distinfo->cpanid;
 
         next if exists($seen{$release->distinfo->dist});
         $seen{$release->distinfo->dist} = 1;
@@ -67,7 +67,7 @@ sub process_cpan_releases
         my ($ym, $week, $date) = time_to_bins($release->timestamp);
 
         $counts{month}->{$user}->{$ym}++;
-        $counts{week}->{$user}->{$week}++;
+        # $counts{week}->{$user}->{$week}++;
     }
 
 }
@@ -78,7 +78,7 @@ sub find_chains
     my @lists;
 
     # active chains
-    foreach my $category (qw(month week)) {
+    foreach my $category (qw(month)) {
         my %chain;
         my %score;
         my %safe;
@@ -110,7 +110,7 @@ sub find_chains
     }
 
     # all-time chains
-    foreach my $category (qw(month week)) {
+    foreach my $category (qw(month)) {
         my %chain;
         my %score;
         my @entries;
